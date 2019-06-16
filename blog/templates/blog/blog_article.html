@@ -1,0 +1,88 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block title %}
+Articles
+{% endblock %}
+
+{% block pagename %}Science Blog{% endblock %}
+
+{% block content %}
+      <!-- Main -->
+        <section id="main">
+          <div class="container">
+            <div class="row">
+
+              <!-- Sidebar -->
+                <div id="sidebar" class="col-4 col-12-medium">
+                {% for highlight in highlights %}
+                  <!-- Excerpts -->
+                    <section>
+                      <ul class="divided">
+                        <li>
+                          <!-- Excerpt -->
+                            <article class="box excerpt">
+                              <header>
+                                <span class="date">{{ highlight.published_date }}</span>
+                                <h3><a href="{% url 'blog:detail' slug=highlight.slug %}">{{ highlight.title }}</a></h3>
+                              </header>
+                              {{ highlight.snippet|linebreaksbr }}
+                            </article>
+
+                        </li>
+                      </ul>
+                    </section>
+                  {% endfor %}
+
+                  <!-- Highlights -->
+                    <section>
+                      <ul class="divided">
+                        <li>
+
+
+                          <!-- Highlight -->
+                          {% for note in note %}
+                            <article class="box highlight">
+                              <header>
+                                <h3>{{ note.title }}</h3>
+                              </header>
+                              <a href="#" class="image left"><img src="{% static 'images/pic06.jpg' %}" alt="" /></a>
+                              <p>{{ note.text }}</p>
+                              <ul class="actions">
+                                <li><a href="{% url 'blog:note' note=note.notenumber %}" class="button icon fa-file">Learn More</a></li>
+                              </ul>
+                            </article>
+
+                        </li>
+                          {% endfor %}
+
+                      </ul>
+                    </section>
+
+                </div>
+
+              <!-- Content -->
+                <div id="content" class="col-8 col-12-medium imp-medium">
+
+                  <!-- Post -->
+                    <article class="box post">
+                      <header>
+                        <h2>{{ post.title }}</h2>
+                        <h4>By: {{ post.author }}</h4>
+                        {% if object.author == user %}
+                        <div>
+                          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'blog:post-update' object.slug %}">Update</a>
+                          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blog:post-delete' object.slug %}">Delete</a>
+                        </div>
+                        {% endif %}
+                      </header>
+                      <img class="rounded-circle article-section" src="{{ post.author.profile.image.url }}">
+                      <span class="image featured"><img src="{{ object.featureImage.url }}" alt="" /></span>
+                      {{ post.content | linebreaksbr}}
+                    </article>
+                </div>
+
+            </div>
+          </div>
+        </section>
+      {% endblock %}

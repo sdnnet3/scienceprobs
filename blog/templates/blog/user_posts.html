@@ -1,0 +1,86 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block title %}
+User posts
+{% endblock %}
+
+{% block pagename %}
+<h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
+{% endblock %}
+
+{% block content %}
+      <!-- Main -->
+        <section id="main">
+          <div class="container">
+            <div class="row">
+
+              <!-- Sidebar -->
+                <div id="sidebar" class="col-4 col-12-medium">
+
+                  <!-- Highlights -->
+                    <section>
+                      <ul class="divided">
+                        <li>
+
+
+                          <!-- Highlight -->
+
+
+                      </ul>
+                    </section>
+
+                </div>
+
+              <!-- Content -->
+                <div id="content" class="col-8 col-12-medium imp-medium">
+
+                  <!-- Post -->
+                  {% for post in posts %}
+                  <article class="box post">
+                      <header>
+                        <h2>{{ post.title }}</h2><br />
+                        <h4>By: {{ post.author }}</h4>
+                        {% if object.author == user %}
+                        <div>
+                          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'blog:post-update' object.slug %}">Update</a>
+                          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blog:post-delete' object.slug %}">Delete</a>
+                        </div>
+                        {% endif %}
+                      </header>
+                      <img class="rounded-circle article-section" src="{{ post.author.profile.image.url }}">
+                      <span class="image featured"><img src="{% static 'images/pic04.jpg' %}" alt="" /></span>
+                      {{ post.content | linebreaksbr}}
+                    </article>
+                    {% endfor %}
+                </div>
+
+
+                <div style="justify-content: center;">
+                {% if is_paginated %}
+
+                  {% if page_obj.has_previous %}
+                    <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                  {% endif %}
+
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                      <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if page_obj.has_next %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                  {% endif %}
+
+                {% endif %}
+                          </div>
+
+            </div>
+          </div>
+        </section>
+      {% endblock %}

@@ -1,0 +1,204 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block pagename %}Science Problems{% endblock %}
+
+{% block features %}
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-133278472-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-133278472-2');
+</script>
+
+			<!-- Features -->
+				<section id="features">
+					<div class="container">
+						<header>
+							<h2>The latest and greatest... solved!</h2>
+						</header>
+
+
+
+
+
+						<div class="row aln-center">
+						
+
+							<div class="col-4 col-6-medium col-12-small">
+								<!-- Feature -->
+								<section>
+										<a href="#" class="image featured"><img src="{% static 'images/book.jpg' %}" alt="calculus book" /></a>
+										<header>
+											<h3>Okay, so what is all this?</h3>
+										</header>
+										<p>
+											Our goal is to offer study guides, tips and tricks to help get you through many university level classes. We are well underway recording videos and designing tools to help make it through university. We aren't here to just give the solutions to a problem, but develop the skills that go into really understanding the material.
+										</p>
+									</section>
+
+							</div>
+
+
+
+
+
+							<div class="col-4 col-6-medium col-12-small">
+
+							<!-- Feature -->
+									<section>
+										<a href="#test" class="image featured"><img src="{% static 'images/clayton.jpg' %}" alt="" /></a>
+										<header>
+											<h3>A blip... blurb? Heck, here's a little bit about me.</h3>
+										</header>
+										<p>Who's that guy? Well, it's me. Hello, I'm Clayton, creator of Science Problems. I've finally made the jump to... well, jump in on this head first. That sounds painful, I know. I'm a Biochemist here in San Diego, born and raised. I don't come from a family of Scientists, so there was a steep learning curve on my end. I didn't give up, and neither should you.</p>
+									</section>
+
+							</div>
+							<div class="col-4 col-6-medium col-12-small">
+
+
+
+
+
+								<!-- Feature -->
+									<section>
+										<a href="#" class="image featured"><img src="{% static 'images/about.jpg' %}" alt="" /></a>
+										<header>
+											<h3>About Science Problems</h3>
+										</header>
+										<p>Science Probs? What heck? Well, mostly remembering the many frustrating hours spent in the
+										 commuter lounge on campus, late nights, endless youtube searches for information that was
+										not delivered very well, and many other things along the way, I decided to work on delivering
+									 something that everyone here could use.</p>
+									</section>
+
+
+
+							</div>
+
+
+							
+<!-- 							<div class="col-12">
+								<ul class="actions">
+									<li><a href="#" class="button icon fa-file">Tell Me More</a></li>
+								</ul>
+							</div> -->
+						</div>
+					</div>
+				</section>
+			{% endblock features %}
+
+
+		{% block Banner %}
+			<!-- Banner -->
+				<section id="banner">
+					<div class="container" style="background-color: white;">
+					</div>
+				</section>
+		{% endblock %}
+
+
+{% block content %}
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+						<div class="row">
+							<!-- Content -->
+								<div id="content" class="col-8 col-12-medium">
+
+								<!-- Insert forloop here to loop through top 3 posts -->
+									<!-- Post -->
+
+
+									{% for post in posts %}
+										{% if forloop.first %}
+											<article class="box post">
+												<header>
+													<h2><a href="#">{{ post.title }}</a></h2>
+												</header>
+												<article class="box excerpt"><span class="date">{{ post.published_date.date }}</span></article>
+												<a href="#" class="image featured"><img src="{% static 'images/pic04.jpg' %}" alt="" /></a>
+												{{ post.clip | linebreaksbr }}
+												<ul class="actions">
+													<li><a href="{% url 'blog:detail' slug=post.slug %}" class="button icon fa-file">Continue Reading</a></li>
+												</ul>
+											</article>
+											<br />
+											<hr />
+											<br />
+										{% endif %}
+									{% endfor %}
+
+
+								</div>
+
+
+							<!-- Sidebar -->
+								<div id="sidebar" class="col-4 col-12-medium">
+
+
+									<!-- Excerpts -->
+										<section>
+											<ul class="divided">
+												
+								<!-- forloop start -->
+											{% for highlight in highlights %}
+												{% if forloop.first %}
+												<li>
+													<!-- Excerpt -->
+														<article class="box excerpt">
+															<header>
+																<span class="date">{{ highlight.published_date.date }}</span>
+																<h3><a href="{% url 'blog:detail' slug=highlight.slug %}">{{ highlight.title }}</a></h3>
+															</header>
+															{{ highlight.clip|linebreaksbr }}
+														</article>
+													</li>
+												{% endif %}
+											{% endfor %}
+								<!-- forloop end -->
+											</ul>
+										</section>
+
+
+
+
+									<!-- Highlights -->
+										<section>
+											<ul class="divided">
+
+
+											<!-- start forloop -->
+												<li>
+													<!-- Highlight -->
+							                          {% for note in note %}
+							                          {% if forloop.first %}
+							                            <article class="box highlight">
+							                              <header>
+							                                <h3><a href="#">{{ note.title }}</a></h3>
+							                              </header>
+							                              <a href="#" class="image left"><img src="{% static 'images/pic06.jpg' %}" alt="" /></a>
+							                              <p>{{ note.text }}</p>
+							                              <ul class="actions">
+							                                <li><a href="{% url 'blog:note' note=note.notenumber %}" class="button icon fa-file">Learn More</a></li>
+							                              </ul>
+							                            </article>
+
+							                        </li>
+							                        {% endif %}
+							                        {% endfor %}
+											<!-- end forloop -->
+
+											</ul>
+										</section>
+
+								</div>
+						</div>
+					</div>
+				</section>
+			{% endblock content %}
